@@ -7,7 +7,8 @@
     "start": "nodemon --no-warnings index.js"
   },
   "dependencies": {
-    "twit": "^2.2.11"
+    "twit": "^2.2.11",
+    "wikijs": "^6.0.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"

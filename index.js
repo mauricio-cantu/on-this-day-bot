@@ -1,4 +1,7 @@
-const Twit = require('twit')
-const { apiConfig } = require('./config')
+const wikiBot = require('./wikiBot')
 
-const T = new Twit(apiConfig)
+let todayQuery = `${new Date().toLocaleString('default', {
+  month: 'long'
+})} ${new Date().getDate()}`
+
+wikiBot.init(todayQuery)
