@@ -1,0 +1,15 @@
+{
+  "name": "on-this-day-bot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon --no-warnings index.js"
+  },
+  "dependencies": {
+    "twit": "^2.2.11"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
