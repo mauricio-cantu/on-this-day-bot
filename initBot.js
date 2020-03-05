@@ -5,6 +5,8 @@ const xhr = new XMLHttpRequest()
 const PING_INTERVAL = 28 * 60000
 
 initBot = async function() {
+  console.log('# initBot')
+
   let todayQuery = `${new Date().toLocaleString('default', {
     month: 'long'
   })} ${new Date().getDate()}`
@@ -19,6 +21,7 @@ initBot = async function() {
 ping = function() {
   xhr.open('get', process.env.baseUrl || 'http://localhost:3000', true)
   xhr.send()
+  console.log('# keep alive')
   setTimeout(ping, PING_INTERVAL)
 }
 
