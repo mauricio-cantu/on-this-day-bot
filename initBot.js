@@ -11,7 +11,7 @@ initBot = async function() {
 
   await wikiBot.init(todayQuery).catch(err => console.log(err))
 
-  // twitterBot.init(wikiBot.contents)
+  twitterBot.init(wikiBot.contents)
 
   ping()
 }
