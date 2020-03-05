@@ -1,17 +1,10 @@
-const wikiBot = require('./wikiBot')
-const twitterBot = require('./twitterBot')
+/**
+ * On This Day Bot for Twitter (@ThisDayBot)
+ * Developed by Maurcio Cantu
+ * github.com/mauricio-cantu
+ * twitter.com/mauriciocantu_
+ */
 
-let todayQuery = `${new Date().toLocaleString('default', {
-  month: 'long'
-})} ${new Date().getDate()}`
+const initBot = require('./initBot')
 
-wikiBot.init(todayQuery).then(() => {
-  twitterBot.init(wikiBot.contents)
-
-  // TODO: desenvolver rotinas para twittar de tempo em tempo
-  // twitterBot.onThisDayTweets.events.forEach(element => {
-  //   twitterBot.bot.post('statuses/update', {
-  //     status: element
-  //   })
-  // })
-})
+initBot()

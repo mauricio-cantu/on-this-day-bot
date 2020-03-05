@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon --no-warnings index.js"
+    "start": "node index.js"
   },
   "dependencies": {
     "twit": "^2.2.11",

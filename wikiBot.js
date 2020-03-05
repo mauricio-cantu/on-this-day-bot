@@ -1,11 +1,5 @@
 const wiki = require('wikijs').default
 
-// let todayQuery = `${new Date().toLocaleString('default', {
-//   month: 'long'
-// })} ${new Date().getDate()}`
-
-let apiResp
-
 const wikiBot = {
   contents: {
     events: {},
@@ -13,24 +7,30 @@ const wikiBot = {
     deaths: {}
   },
 
-  init: function(query) {
+  init: async function(query) {
     return new Promise(function(fullfilled, reject) {
       wiki()
+        // procura pela pagina do dia correspondente
         .search(query, 1)
+        .catch(err => {
+          reject(err)
+          return
+        })
         .then(data =>
           wiki()
+            // pega primeiro resultado (o mais correspondente)
             .page(data.results[0])
             .then(page =>
-              page.sections().then(sections => (apiResp = sections))
+              page.sections().then(sections => {
+                // separa os conteudos em categorias
+                wikiBot.categorize(sections)
+                fullfilled('done')
+              })
             )
         )
-        .then(() => {
-          wikiBot.categorize(apiResp)
-          fullfilled(true)
-        })
         .catch(err => {
-          reject(true)
-          console.log(err)
+          reject(err)
+          return
         })
     })
   },
