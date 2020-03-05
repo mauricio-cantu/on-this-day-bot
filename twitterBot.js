@@ -3,7 +3,7 @@ const initBot = require('./initBot')
 const { apiConfig } = require('./config')
 const HASHTAG = '#OnThisDay'
 const MAX_CHARACTERS = 280
-const INTERVAL_TWEETS = 10 * 60000
+const INTERVAL_TWEETS = 15 * 60000
 let actualDay = new Date().getDate()
 
 const twitterBot = {
@@ -84,32 +84,33 @@ const twitterBot = {
       actualDay = today
       initBot()
     }
-    // 0 - events, 1 - births, 2 - deaths
-    let choice = twitterBot.getRandomChoice()
-    let tweet = ''
-    switch (choice) {
-      case 0:
-        randomIndex = Math.floor(
-          Math.random() * (twitterBot.onThisDayTweets.events.length - 1)
-        )
-        tweet = twitterBot.onThisDayTweets.events.splice(randomIndex, 1)
-        break
-      case 1:
-        randomIndex = Math.floor(
-          Math.random() * (twitterBot.onThisDayTweets.births.length - 1)
-        )
-        tweet = twitterBot.onThisDayTweets.births.splice(randomIndex, 1)
-        break
-      case 2:
-        randomIndex = Math.floor(
-          Math.random() * (twitterBot.onThisDayTweets.deaths.length - 1)
-        )
-        tweet = twitterBot.onThisDayTweets.deaths.splice(randomIndex, 1)
-        break
+    let tweeted = false
+    while (!tweeted) {
+      // 0 - events, 1 - births, 2 - deaths
+      let choice = twitterBot.getRandomChoice()
+      let tweet = ''
+      switch (choice) {
+        case 0:
+          randomIndex = Math.floor(
+            Math.random() * (twitterBot.onThisDayTweets.events.length - 1)
+          )
+          tweet = twitterBot.onThisDayTweets.events.splice(randomIndex, 1)
+          break
+        case 1:
+          randomIndex = Math.floor(
+            Math.random() * (twitterBot.onThisDayTweets.births.length - 1)
+          )
+          tweet = twitterBot.onThisDayTweets.births.splice(randomIndex, 1)
+          break
+        case 2:
+          randomIndex = Math.floor(
+            Math.random() * (twitterBot.onThisDayTweets.deaths.length - 1)
+          )
+          tweet = twitterBot.onThisDayTweets.deaths.splice(randomIndex, 1)
+          break
+      }
+      tweeted = twitterBot.makeTweet(tweet[0])
     }
-
-    twitterBot.makeTweet(tweet[0])
-
     setTimeout(twitterBot.startTweetsSchedule, INTERVAL_TWEETS)
   },
 
@@ -125,11 +126,13 @@ const twitterBot = {
   },
 
   makeTweet: function(text) {
-    this.bot.post('statuses/update', { status: text }, (err, data, res) => {
-      if (err) {
-        console.log(`# post tweet error\n${text}\n`, data)
-      }
-    })
+    let posted = false
+    this.bot.post(
+      'statuses/update',
+      { status: text },
+      (err, data, res) => (posted = err)
+    )
+    return !posted
   }
 }
 

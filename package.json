@@ -9,7 +9,8 @@
   "dependencies": {
     "express": "^4.17.1",
     "twit": "^2.2.11",
-    "wikijs": "^6.0.1"
+    "wikijs": "^6.0.1",
+    "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
