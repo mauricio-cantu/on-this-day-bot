@@ -110,7 +110,6 @@ const twitterBot = {
           break
       }
       tweeted = twitterBot.makeTweet(tweet[0])
-      if (!tweeted) console.log(`# tweet error\n${tweet[0]}`)
     }
     setTimeout(twitterBot.startTweetsSchedule, INTERVAL_TWEETS)
   },
@@ -128,11 +127,10 @@ const twitterBot = {
 
   makeTweet: function(text) {
     let posted = false
-    this.bot.post(
-      'statuses/update',
-      { status: text },
-      (err, data, res) => (posted = err)
-    )
+    this.bot.post('statuses/update', { status: text }, (err, data, res) => {
+      posted = err
+      console.log(`# tweet error\n${text}`, data)
+    })
     return !posted
   }
 }

@@ -21,7 +21,7 @@ initBot = async function() {
 ping = function() {
   xhr.open('get', process.env.baseUrl || 'http://localhost:3000', true)
   xhr.send()
-  console.log('# keep alive')
+  console.log('# ping')
   setTimeout(ping, PING_INTERVAL)
 }
 
