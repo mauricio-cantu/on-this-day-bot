@@ -130,7 +130,7 @@ const twitterBot = {
     let posted = false
     this.bot.post('statuses/update', { status: text }, (err, data, res) => {
       posted = err
-      console.log('# tweet error:\n', data)
+      if (err) console.log('# tweet error:\n', data)
     })
     return !posted
   }
