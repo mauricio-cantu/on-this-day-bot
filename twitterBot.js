@@ -110,6 +110,7 @@ const twitterBot = {
           break
       }
       tweeted = twitterBot.makeTweet(tweet[0])
+      if (!tweeted) console.log(`# tweet error\n${tweet[0]}`)
     }
     setTimeout(twitterBot.startTweetsSchedule, INTERVAL_TWEETS)
   },
