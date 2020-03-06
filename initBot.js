@@ -5,11 +5,11 @@ const xhr = new XMLHttpRequest()
 const PING_INTERVAL = 28 * 60000
 
 initBot = async function() {
-  console.log('# initBot')
-
   let todayQuery = `${new Date().toLocaleString('default', {
     month: 'long'
   })} ${new Date().getDate()}`
+
+  console.log('# initBot: ' + todayQuery)
 
   await wikiBot.init(todayQuery).catch(err => console.log(err))
 

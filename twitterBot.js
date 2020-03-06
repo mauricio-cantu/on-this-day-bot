@@ -85,7 +85,7 @@ const twitterBot = {
       initBot()
     }
     let tweeted = false
-    while (!tweeted) {
+    do {
       // 0 - events, 1 - births, 2 - deaths
       let choice = twitterBot.getRandomChoice()
       let tweet = ''
@@ -110,7 +110,8 @@ const twitterBot = {
           break
       }
       tweeted = twitterBot.makeTweet(tweet[0])
-    }
+    } while (!tweeted)
+
     setTimeout(twitterBot.startTweetsSchedule, INTERVAL_TWEETS)
   },
 
@@ -129,7 +130,7 @@ const twitterBot = {
     let posted = false
     this.bot.post('statuses/update', { status: text }, (err, data, res) => {
       posted = err
-      console.log(`# tweet error\n${text}`, data)
+      console.log('# tweet error:\n', data)
     })
     return !posted
   }
