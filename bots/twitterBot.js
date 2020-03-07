@@ -16,11 +16,11 @@ const twitterBot = {
     this.onThisDayTweets.events = []
     this.onThisDayTweets.births = []
     this.onThisDayTweets.deaths = []
-    // this.handleEventsTweets(sections.events.split('\n'))
-    // this.handleBirthTweets(sections.births.split('\n'))
-    // this.handleDeathTweets(sections.deaths.split('\n'))
+    this.handleEventsTweets(sections.events.split('\n'))
+    this.handleBirthTweets(sections.births.split('\n'))
+    this.handleDeathTweets(sections.deaths.split('\n'))
 
-    // this.startTweetsSchedule()
+    this.startTweetsSchedule()
   },
 
   handleEventsTweets: function(array) {
@@ -81,12 +81,12 @@ const twitterBot = {
   },
 
   startTweetsSchedule: async function() {
-    if (new Date().getDate() != this.actualDay) initBot()
+    if (new Date().getDate() != twitterBot.actualDay) initBot()
 
     if (
-      this.onThisDayTweets.events.length != 0 ||
-      this.onThisDayTweets.births.length != 0 ||
-      this.onThisDayTweets.deaths.length != 0
+      twitterBot.onThisDayTweets.events.length != 0 ||
+      twitterBot.onThisDayTweets.births.length != 0 ||
+      twitterBot.onThisDayTweets.deaths.length != 0
     ) {
       let tweeted = true
 
@@ -121,6 +121,7 @@ const twitterBot = {
             .post('statuses/update', { status: tweet[0] })
             .catch(err => {
               tweeted = false
+              console.log('# tweet error: ', err.message)
             })
         } else break
       } while (!tweeted)
@@ -155,7 +156,7 @@ const twitterBot = {
 
     let n = Math.floor(Math.random() * 100 + 1)
 
-    if (n >= 0 && n <= 70) {
+    if (n <= 70) {
       return 0 // events
     } else if (n <= 85) {
       return 1 // births
