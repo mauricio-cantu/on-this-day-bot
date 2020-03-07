@@ -8,7 +8,7 @@ const wikiBot = {
   },
 
   init: async function(query) {
-    return new Promise(function(fullfilled, reject) {
+    return new Promise(function(resolve, reject) {
       wiki()
         // procura pela pagina do dia correspondente
         .search(query, 1)
@@ -24,13 +24,12 @@ const wikiBot = {
               page.sections().then(sections => {
                 // separa os conteudos em categorias
                 wikiBot.categorize(sections)
-                fullfilled('done')
+                resolve('done')
               })
             )
         )
         .catch(err => {
           reject(err)
-          return
         })
     })
   },
@@ -45,12 +44,6 @@ const wikiBot = {
         this.contents.deaths = section.content
       }
     }
-  },
-
-  clearObject: function() {
-    this.contents.births = {}
-    this.contents.deaths = {}
-    this.contents.events = {}
   }
 }
 

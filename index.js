@@ -1,11 +1,12 @@
 /**
- * On This Day Bot for Twitter (@ThisDayBot)
+ * 'On This Day Bot' Twitter Bot (@ThisDayBot)
  * Developed by Maurcio Cantu
  * github.com/mauricio-cantu
  * twitter.com/mauriciocantu_
+ * twitter.com/ThisDayBot
  */
 
-const initBot = require('./initBot')
+const initBot = require('./bots/initBot')
 const express = require('express')
 const app = express()
 

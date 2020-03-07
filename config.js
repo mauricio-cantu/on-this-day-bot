@@ -5,7 +5,10 @@ module.exports = {
     access_token: '1234845543895052288-wXh6lgNyiMfyd7IFXmiOle6kvrki1r',
     access_token_secret: 'zQEAeSofMXziW6IbGu9dFPX32BOC4COopbluQ79IJMd1S'
   },
-  wikiConfig: {
-    apiUrl: 'https://pt.wikipedia.org/w/api.php'
+  constants: {
+    HASHTAG: '#OnThisDay',
+    MAX_CHARACTERS: 270,
+    INTERVAL_TWEETS: 15 * 60000,
+    PING_INTERVAL: 28 * 60000
   }
 }
