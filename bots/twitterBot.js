@@ -123,6 +123,7 @@ const twitterBot = {
               tweeted = false
               console.log('# tweet error: ', err.message)
             })
+            .then(res => (tweeted = true))
         } else break
       } while (!tweeted)
     } else {
