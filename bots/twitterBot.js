@@ -1,9 +1,15 @@
 const twitterBot = {}
 module.exports = twitterBot
 
+require('dotenv/config')
 const Twit = require('twit')
 const initBot = require('./initBot')
-const { apiConfig } = require('../config')
+const apiConfig = {
+  consumer_key: process.env.CONSUMER_KEY,
+  consumer_secret: process.env.CONSUMER_SECRET,
+  access_token: process.env.ACCESS_TOKEN,
+  access_token_secret: process.env.ACCESS_TOKEN_SECRET
+}
 const {
   constants: { HASHTAG, MAX_CHARACTERS, INTERVAL_TWEETS }
 } = require('../config')
@@ -120,12 +126,12 @@ twitterBot.startTweetsSchedule = async function() {
       }
 
       if (tweet[0]) {
-        await twitterBot.bot
-          .post('statuses/update', { status: tweet[0] })
-          .catch(err => {
-            tweeted = false
-            console.log('# tweet error: ', err.message)
-          })
+        // await twitterBot.bot
+        //   .post('statuses/update', { status: tweet[0] })
+        //   .catch(err => {
+        //     tweeted = false
+        //     console.log('# tweet error: ', err.message)
+        //   })
       } else break
     } while (!tweeted)
   } else {
