@@ -1,6 +1,8 @@
-# on-this-day-bot
-Bot que twitta fatos históricos ocorridos no mesmo dia porém em anos passados.
+<h1 align="center">On This Day Twitter Bot 🤖🔎</h1>
+<p align="center">Follow it! <a href="http:www.twitter.com/ThisDayBot" target="blank">@ThisDayBot</a></p>
 
-# Propósito
-A ideia inicial do projeto é para aprendizado apenas e, com o tempo, evoluir para algo mais funcional e eficiente.
+# On This Day Bot
+It is a Twitter bot which tweets historical facts and events that happened on the same day in past years. Do you like history? Then you should definately <a href="http:www.twitter.com/ThisDayBot" target="blank">follow it</a>! 🤩
 
+# Techs
+Developed with Nodejs and both Twit and WikiJs modules.🚀
