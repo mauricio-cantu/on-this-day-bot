@@ -1,7 +1,6 @@
 const twitterBot = {}
 module.exports = twitterBot
 
-require('dotenv/config')
 const Twit = require('twit')
 const initBot = require('./initBot')
 const apiConfig = {
