@@ -10,11 +10,10 @@ const {
 
 twitterBot.bot = new Twit(apiConfig)
 
-twitterBot.actualDay = new Date().getDate()
-
 twitterBot.onThisDayTweets = []
 
 twitterBot.init = function(sections) {
+  this.actualDay = new Date().getDate()
   this.onThisDayTweets.events = []
   this.onThisDayTweets.births = []
   this.onThisDayTweets.deaths = []
@@ -82,10 +81,13 @@ twitterBot.applyRegex = function(element, index, arr) {
   }
 }
 
+let timeOutFn
 twitterBot.startTweetsSchedule = async function() {
   if (twitterBot.dayHasChanged()) {
     console.log('day has changed')
+    clearTimeout(timeOutFn)
     initBot.init()
+    return
   }
 
   if (twitterBot.hasTweets()) {
@@ -129,7 +131,7 @@ twitterBot.startTweetsSchedule = async function() {
   } else {
     console.log('# contents array is empty')
   }
-  setTimeout(twitterBot.startTweetsSchedule, INTERVAL_TWEETS)
+  timeOutFn = setTimeout(twitterBot.startTweetsSchedule, 40000)
 }
 
 twitterBot.getRandomOption = function() {
