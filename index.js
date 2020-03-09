@@ -9,6 +9,7 @@
 console.log('index js')
 console.log(process.env.WEBHOOK_PORT)
 console.log(process.env.PORT)
+console.log(process.env.CONSUMER_KEY)
 
 const initBot = require('./bots/initBot')
 const initWebhook = require('./twitter-webhook')
