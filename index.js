@@ -7,6 +7,7 @@
  */
 
 const initBot = require('./bots/initBot')
+const initWebhook = require('./twitter-webhook')
 const express = require('express')
 const app = express()
 
@@ -23,3 +24,6 @@ app.listen(process.env.PORT || 3000)
 
 // inicia o bot
 initBot.init()
+
+// inicia webhook para escutar eventos de interação com a conta
+initWebhook()

@@ -178,3 +178,11 @@ twitterBot.hasTweets = function() {
     twitterBot.onThisDayTweets.deaths.length != 0
   )
 }
+
+twitterBot.replyOnFollow = function(username) {
+  this.bot
+    .post('statuses/update', {
+      status: `Hey ${username}, thanks for following! 🤗\nThis day will be marked in history!`
+    })
+    .catch(err => console.log('# reply error: ', err.message))
+}

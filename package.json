@@ -9,6 +9,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "twit": "^2.2.11",
+    "twitter-autohook": "^1.4.2",
     "wikijs": "^6.0.1",
     "xmlhttprequest": "^1.8.0"
   },
