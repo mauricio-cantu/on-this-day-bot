@@ -131,7 +131,7 @@ twitterBot.startTweetsSchedule = async function() {
   } else {
     console.log('# contents array is empty')
   }
-  timeOutFn = setTimeout(twitterBot.startTweetsSchedule, 40000)
+  timeOutFn = setTimeout(twitterBot.startTweetsSchedule, INTERVAL_TWEETS)
 }
 
 twitterBot.getRandomOption = function() {
