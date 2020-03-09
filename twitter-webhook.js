@@ -4,8 +4,8 @@ const twitterBot = require('./bots/twitterBot')
 module.exports = async start => {
   try {
     const webhook = new Autohook()
+
     webhook.port = process.env.WEBHOOK_PORT || 1337
-    console.log('process.env.WEBHOOK_PORT', process.env.WEBHOOK_PORT)
 
     // Removes existing webhooks
     await webhook.removeWebhooks()
