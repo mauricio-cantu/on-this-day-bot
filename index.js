@@ -6,6 +6,10 @@
  * twitter.com/ThisDayBot
  */
 
+console.log('index js')
+console.log(process.env.WEBHOOK_PORT)
+console.log(process.env.PORT)
+
 const initBot = require('./bots/initBot')
 const initWebhook = require('./twitter-webhook')
 const express = require('express')
@@ -21,9 +25,6 @@ app.get('/*', (req, res) => {
 })
 
 app.listen(process.env.PORT || 3000)
-
-console.log('process.env.WEBHOOK_PORT', process.env.WEBHOOK_PORT)
-console.log('process.env.PORT', process.env.PORT)
 
 // inicia o bot
 initBot.init()
