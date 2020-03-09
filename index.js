@@ -21,4 +21,5 @@ app.get('/*', (req, res) => {
 
 app.listen(process.env.PORT || 3000)
 
-initBot()
+// inicia o bot
+initBot.init()

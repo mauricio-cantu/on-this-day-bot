@@ -8,14 +8,10 @@ const wikiBot = {
   },
 
   init: async function(query) {
-    return new Promise(function(resolve, reject) {
+    return (
       wiki()
         // procura pela pagina do dia correspondente
         .search(query, 1)
-        .catch(err => {
-          reject(err)
-          return
-        })
         .then(data =>
           wiki()
             // pega primeiro resultado (o mais correspondente)
@@ -24,14 +20,10 @@ const wikiBot = {
               page.sections().then(sections => {
                 // separa os conteudos em categorias
                 wikiBot.categorize(sections)
-                resolve('done')
               })
             )
         )
-        .catch(err => {
-          reject(err)
-        })
-    })
+    )
   },
 
   categorize: function(sections) {

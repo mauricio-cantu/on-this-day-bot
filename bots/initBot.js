@@ -1,3 +1,6 @@
+const initBot = {}
+module.exports = initBot
+
 const wikiBot = require('./wikiBot')
 const twitterBot = require('./twitterBot')
 const XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest
@@ -6,25 +9,31 @@ const {
   constants: { PING_INTERVAL }
 } = require('../config')
 
-initBot = async function() {
+/**
+ * Ping necessario para fazer com que o servidor do app no Heroku não entre no modo sleep
+ */
+initBot.setPing = function() {
+  xhr.open('get', process.env.baseUrl || 'http://localhost:3000', true)
+  xhr.send()
+  console.log('# ping')
+  setTimeout(initBot.setPing, PING_INTERVAL)
+}
+/**
+ * Método principal inicial do bot. Carrega o conteúdo da Wikipedia e inicia o bot do Twitter.
+ */
+initBot.init = async function() {
   let todayQuery = `${new Date().toLocaleString('default', {
     month: 'long'
   })} ${new Date().getDate()}`
 
   console.log('# initBot: ' + todayQuery)
 
-  await wikiBot.init(todayQuery).catch(err => console.log(err))
+  await wikiBot.init(todayQuery).catch(err => {
+    console.log('# fail loading content: ', err)
+    process.exit()
+  })
 
   twitterBot.init(wikiBot.contents)
 
-  setPing()
+  initBot.setPing()
 }
-
-setPing = function() {
-  xhr.open('get', process.env.baseUrl || 'http://localhost:3000', true)
-  xhr.send()
-  console.log('# ping')
-  setTimeout(setPing, PING_INTERVAL)
-}
-
-module.exports = initBot
