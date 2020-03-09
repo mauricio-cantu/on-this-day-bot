@@ -125,12 +125,12 @@ twitterBot.startTweetsSchedule = async function() {
       }
 
       if (tweet[0]) {
-        // await twitterBot.bot
-        //   .post('statuses/update', { status: tweet[0] })
-        //   .catch(err => {
-        //     tweeted = false
-        //     console.log('# tweet error: ', err.message)
-        //   })
+        await twitterBot.bot
+          .post('statuses/update', { status: tweet[0] })
+          .catch(err => {
+            tweeted = false
+            console.log('# tweet error: ', err.message)
+          })
       } else break
     } while (!tweeted)
   } else {

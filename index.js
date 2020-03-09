@@ -6,6 +6,7 @@
  * twitter.com/ThisDayBot
  */
 
+require('dotenv').config()
 const initBot = require('./bots/initBot')
 const initWebhook = require('./twitter-webhook')
 const express = require('express')
