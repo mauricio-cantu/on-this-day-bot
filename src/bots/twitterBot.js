@@ -152,6 +152,8 @@ twitterBot.startTweetsSchedule = async function() {
               dayLabel: twitterBot.todayQuery
             })
           }
+        } else {
+          tweeted = false
         }
       } else {
         console.log(
