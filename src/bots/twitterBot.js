@@ -96,6 +96,7 @@ twitterBot.startTweetsSchedule = async function() {
   if (twitterBot.dayHasChanged()) {
     console.log('day has changed')
     clearTimeout(timeOutFn)
+    await Tweet.deleteMany({ dayLabel: twitterBot.todayQuery })
     initBot.init()
     return
   }
