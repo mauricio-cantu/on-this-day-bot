@@ -141,7 +141,10 @@ twitterBot.startTweetsSchedule = async function() {
             .post('statuses/update', { status: tweet[0] })
             .catch(err => {
               tweeted = false
-              console.log('# tweet error: ', err.message)
+              console.log(
+                `# tweet error: (${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()})`,
+                err.message
+              )
             })
           if (tweeted) {
             await Tweet.create({
@@ -150,7 +153,12 @@ twitterBot.startTweetsSchedule = async function() {
             })
           }
         }
-      } else break
+      } else {
+        console.log(
+          `# tweet undef (${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()})`
+        )
+        break
+      }
     } while (!tweeted)
   } else {
     console.log('# contents array is empty')
@@ -208,5 +216,10 @@ twitterBot.replyOnFollow = function(username) {
     .post('statuses/update', {
       status: `Hey ${username}, thanks for following! 🤗\nThis day will be marked in history!`
     })
-    .catch(err => console.log('# reply error: ', err.message))
+    .catch(err =>
+      console.log(
+        `# reply error: (${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()})`,
+        err.message
+      )
+    )
 }

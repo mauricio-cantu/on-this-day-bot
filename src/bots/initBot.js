@@ -15,8 +15,10 @@ const {
 initBot.setPing = function() {
   xhr.open('get', process.env.baseUrl || 'http://localhost:3000', true)
   xhr.send()
-  console.log('# ping')
-  setTimeout(initBot.setPing, 10000)
+  console.log(
+    `# ping (${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()})`
+  )
+  setTimeout(initBot.setPing, PING_INTERVAL)
 }
 /**
  * Método principal inicial do bot. Carrega o conteúdo da Wikipedia e inicia o bot do Twitter.
@@ -26,7 +28,9 @@ initBot.init = async function() {
     month: 'long'
   })} ${new Date().getDate()}`
 
-  console.log('# initBot: ' + todayQuery)
+  console.log(
+    `# initBot: ${todayQuery} (${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()})`
+  )
 
   await wikiBot.init(todayQuery).catch(err => {
     console.log('# fail loading content: ', err)
