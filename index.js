@@ -7,8 +7,8 @@
  */
 
 require('dotenv').config()
-const initBot = require('./bots/initBot')
-const initWebhook = require('./twitter-webhook')
+const initBot = require('./src/bots/initBot')
+const initWebhook = require('./src/twitter-webhook')
 const express = require('express')
 const app = express()
 

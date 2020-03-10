@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "express": "^4.17.1",
+    "mongoose": "^5.9.4",
     "twit": "^2.2.11",
     "twitter-autohook": "^1.4.2",
     "wikijs": "^6.0.1",

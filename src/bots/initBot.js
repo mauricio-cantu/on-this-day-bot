@@ -16,7 +16,7 @@ initBot.setPing = function() {
   xhr.open('get', process.env.baseUrl || 'http://localhost:3000', true)
   xhr.send()
   console.log('# ping')
-  setTimeout(initBot.setPing, PING_INTERVAL)
+  setTimeout(initBot.setPing, 10000)
 }
 /**
  * Método principal inicial do bot. Carrega o conteúdo da Wikipedia e inicia o bot do Twitter.
@@ -35,5 +35,5 @@ initBot.init = async function() {
 
   twitterBot.init(wikiBot.contents)
 
-  initBot.setPing()
+  setTimeout(initBot.setPing, 10000)
 }
