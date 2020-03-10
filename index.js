@@ -10,21 +10,31 @@ require('dotenv').config()
 const initBot = require('./src/bots/initBot')
 const initWebhook = require('./src/twitter-webhook')
 const express = require('express')
+const mongoose = require('mongoose')
 const app = express()
 
-app.get('/*', (req, res) => {
-  res.set('Content-Type', 'text/html')
-  res.send(
-    new Buffer(
-      "<div style='padding: 30px;max-width: 500px; font-family: monospace;'>Hey there! This is the server for <b><a style='font-size: 20px;' href='http://twitter.com/ThisDayBot' target='blank'>@ThisDayBot</a></b> Twitter bot. Follow it to get to know historical facts that happened on the same current day but in other years.<br>Built by Mauricio Cantu, 2020.<br>GitHub: <a href='http://www.github.com/mauricio-cantu'> github.com/mauricio-cantu</a></div>"
+;(async () => {
+  await mongoose
+    .connect(process.env.DB_CONN_STRING, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    })
+    .catch(err => console.log('# error connecting to db ', err))
+
+  app.get('/*', (req, res) => {
+    res.set('Content-Type', 'text/html')
+    res.send(
+      new Buffer(
+        "<div style='padding: 30px;max-width: 500px; font-family: monospace;'>Hey there! This is the server for <b><a style='font-size: 20px;' href='http://twitter.com/ThisDayBot' target='blank'>@ThisDayBot</a></b> Twitter bot. Follow it to get to know historical facts that happened on the same current day but in other years.<br>Built by Mauricio Cantu, 2020.<br>GitHub: <a href='http://www.github.com/mauricio-cantu'> github.com/mauricio-cantu</a></div>"
+      )
     )
-  )
-})
+  })
 
-app.listen(process.env.PORT || 3000)
+  app.listen(process.env.PORT || 3000)
 
-// inicia o bot
-initBot.init()
+  // inicia webhook para escutar eventos de interação com a conta
+  await initWebhook()
 
-// inicia webhook para escutar eventos de interação com a conta
-initWebhook()
+  // inicia o bot
+  await initBot.init()
+})()

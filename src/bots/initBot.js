@@ -33,7 +33,7 @@ initBot.init = async function() {
     process.exit()
   })
 
-  twitterBot.init(wikiBot.contents)
+  twitterBot.init(wikiBot.contents, todayQuery)
 
-  setTimeout(initBot.setPing, 10000)
+  setTimeout(initBot.setPing, PING_INTERVAL)
 }

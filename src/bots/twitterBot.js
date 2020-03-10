@@ -3,12 +3,15 @@ module.exports = twitterBot
 
 const Twit = require('twit')
 const initBot = require('./initBot')
+const Tweet = require('../models/Tweet')
+
 const apiConfig = {
   consumer_key: process.env.TWITTER_CONSUMER_KEY,
   consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
   access_token: process.env.TWITTER_ACCESS_TOKEN,
   access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
 }
+
 const {
   constants: { HASHTAG, MAX_CHARACTERS, INTERVAL_TWEETS }
 } = require('../config')
@@ -17,11 +20,13 @@ twitterBot.bot = new Twit(apiConfig)
 
 twitterBot.onThisDayTweets = []
 
-twitterBot.init = function(sections) {
+twitterBot.init = function(sections, todayQuery) {
   this.actualDay = new Date().getDate()
+  this.todayQuery = todayQuery
   this.onThisDayTweets.events = []
   this.onThisDayTweets.births = []
   this.onThisDayTweets.deaths = []
+
   this.handleEventsTweets(sections.events.split('\n'))
   this.handleBirthTweets(sections.births.split('\n'))
   this.handleDeathTweets(sections.deaths.split('\n'))
@@ -35,7 +40,7 @@ twitterBot.handleEventsTweets = function(array) {
 }
 
 twitterBot.handleDeathTweets = function(array) {
-  let tweetInitial = `People who died ${HASHTAG} 💀\nPress F (or don't depending on who it was! 🤷)\n`
+  let tweetInitial = `People who died ${HASHTAG} (${twitterBot.todayQuery}) 💀\nPress F (or don't depending on who it was! 🤷)\n`
   let tweetComp = ''
   let finalTweet = ''
   while (array.length > 0) {
@@ -54,7 +59,7 @@ twitterBot.handleDeathTweets = function(array) {
 }
 
 twitterBot.handleBirthTweets = function(array) {
-  let tweetInitial = `People who were born ${HASHTAG} in history 👶\n`
+  let tweetInitial = `People who were born ${HASHTAG} in history (${twitterBot.todayQuery}) 👶\n`
   let tweetComp = ''
   let finalTweet = ''
   while (array.length > 0) {
@@ -76,7 +81,7 @@ twitterBot.applyRegex = function(element, index, arr) {
   let matches = element.match(/((\d+)\s*–)/m)
   if (matches) {
     element = element.replace(matches[0], '').trim()
-    element = `${HASHTAG} in ${matches[2]} 📖:\n${element}`
+    element = `${HASHTAG} in ${matches[2]} (${twitterBot.todayQuery}) 📖:\n${element}`
     if (element.length > MAX_CHARACTERS) {
       element.slice(0, MAX_CHARACTERS).concat('...')
     }
@@ -125,18 +130,31 @@ twitterBot.startTweetsSchedule = async function() {
       }
 
       if (tweet[0]) {
-        await twitterBot.bot
-          .post('statuses/update', { status: tweet[0] })
-          .catch(err => {
-            tweeted = false
-            console.log('# tweet error: ', err.message)
-          })
+        let tweetExists = await Tweet.findOne({
+          content: tweet[0],
+          dayLabel: twitterBot.todayQuery
+        })
+
+        if (!tweetExists) {
+          await twitterBot.bot
+            .post('statuses/update', { status: tweet[0] })
+            .catch(err => {
+              tweeted = false
+              console.log('# tweet error: ', err.message)
+            })
+          if (tweeted) {
+            await Tweet.create({
+              content: tweet[0],
+              dayLabel: twitterBot.todayQuery
+            })
+          }
+        }
       } else break
     } while (!tweeted)
   } else {
     console.log('# contents array is empty')
   }
-  timeOutFn = setTimeout(twitterBot.startTweetsSchedule, INTERVAL_TWEETS)
+  timeOutFn = setTimeout(twitterBot.startTweetsSchedule, 10000)
 }
 
 twitterBot.getRandomOption = function() {
