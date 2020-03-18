@@ -10,15 +10,15 @@ const wikiBot = {
   init: async function(query) {
     return (
       wiki()
-        // procura pela pagina do dia correspondente
+        // search for page of current day
         .search(query, 1)
         .then(data =>
           wiki()
-            // pega primeiro resultado (o mais correspondente)
+            // takes first result (the most corresponding)
             .page(data.results[0])
             .then(page =>
+              // categorize contents in deaths, births and events
               page.sections().then(sections => {
-                // separa os conteudos em categorias
                 wikiBot.categorize(sections)
               })
             )

@@ -10,12 +10,16 @@ module.exports = async start => {
     // Removes existing webhooks
     await webhook.removeWebhooks()
 
+    // listen to accout followed event
     webhook.on('event', async event => {
       if (event.follow_events) {
+        // debug log
         console.log(
           `# follow event received (${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()})`
         )
+        // gets follower username
         let username = `@${event.follow_events[0].source.screen_name}`
+        // thanks for the following
         twitterBot.replyOnFollow(username)
       }
     })

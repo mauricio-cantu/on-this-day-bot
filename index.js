@@ -14,6 +14,7 @@ const mongoose = require('mongoose')
 const app = express()
 
 ;(async () => {
+  // conects to mongoDB
   await mongoose
     .connect(process.env.DB_CONN_STRING, {
       useNewUrlParser: true,
@@ -21,6 +22,7 @@ const app = express()
     })
     .catch(err => console.log('# error connecting to db ', err))
 
+  // defines a simple view for any route on server
   app.get('/*', (req, res) => {
     res.set('Content-Type', 'text/html')
     res.send(
@@ -32,9 +34,9 @@ const app = express()
 
   app.listen(process.env.PORT || 3000)
 
-  // inicia webhook para escutar eventos de interação com a conta
+  // setup webhook to listen to interaction events with the bot account
   await initWebhook()
 
-  // inicia o bot
+  // initialize bot
   await initBot.init()
 })()
